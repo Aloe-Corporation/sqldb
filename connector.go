@@ -10,10 +10,7 @@ import (
 )
 
 const (
-	DRIVER_POSTGRES = "postgres"
-	DRIVER_MYSQL    = "mysql"
-
-	TICK_INTERVAL = 50 * time.Millisecond
+	tickInterval = 50 * time.Millisecond
 )
 
 // Conf represents the configuration structure for opening a connection to the
@@ -38,7 +35,7 @@ type Connector struct {
 // attempt.
 func (con *Connector) TryConnection(t int) error {
 	// Create a ticker to ping the database at regular intervals.
-	ticker := time.NewTicker(TICK_INTERVAL)
+	ticker := time.NewTicker(tickInterval)
 	defer ticker.Stop()
 
 	// Set a timeout for the overall connection attempt.

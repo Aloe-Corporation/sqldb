@@ -13,11 +13,12 @@ import (
 
 var (
 	configPostgres = Conf{
-		Driver: DRIVER_POSTGRES,
+		Driver: "postgres",
 		DSN:    "user=postgres password=example dbname=postgres host=localhost port=15432 sslmode=disable TimeZone=UTC",
 	}
+
 	configMysql = Conf{
-		Driver: DRIVER_MYSQL,
+		Driver: "mysql",
 		DSN:    "root:example@tcp(localhost:13306)/dbtest?loc=UTC&tls=false&parseTime=true",
 	}
 
@@ -185,7 +186,7 @@ func TestTransactionControl(t *testing.T) {
 			assert.NotNil(t, tx)
 
 			if testCase.withInvalidTx {
-				tx.Rollback()
+				_ = tx.Rollback()
 			}
 
 			err = connector.Commit(tx)
