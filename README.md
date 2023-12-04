@@ -1,6 +1,6 @@
 # Sqldb
 
-The sqldb module defines a supercharged native `sql.DB` that simplifies configuration and add some usefull methods. It aims to minify code repetition that the `database/sql"` module can create.
+The sqldb module defines a supercharged native `sql.DB` driver that simplifies configuration and add some usefull methods. It aims to minify code repetition that the `database/sql"` module can create.
 
 ![tests](https://github.com/Aloe-Corporation/sqldb/actions/workflows/go.yml/badge.svg)
 [![Go Reference](https://pkg.go.dev/badge/github.com/Aloe-Corporation/sqldb.svg)](https://pkg.go.dev/github.com/Aloe-Corporation/sqldb)
@@ -14,7 +14,7 @@ The sqldb module offers:
 
 ## Concepts
 
-Easily configure your connector with the provided `Conf` structure and it factory:
+Easily configure your connector with the provided `Conf` structure and its factory methods:
 
 ```go
 type Conf struct {
@@ -48,7 +48,7 @@ To create new SqlDB Connector use this function with as configuration the struct
 ```go
 var config = sqldb.Conf{
 	Driver:     "mysql",
-	Pwd:      	"root:example@tcp(localhost:13306)/dbtest?loc=UTC&tls=false&parseTime=trueword",
+	DSN:      	"root:example@tcp(localhost:13306)/dbtest?loc=UTC&tls=false&parseTime=trueword",
 }
 
 // Build Connector
