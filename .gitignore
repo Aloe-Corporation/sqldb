@@ -1,2 +1,2 @@
-go.sum
+vendor/
 .DS_Store

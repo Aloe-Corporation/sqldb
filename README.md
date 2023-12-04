@@ -1,7 +1,27 @@
-# sqldb
+# Sqldb
 
-This project is a module for SqlDB Connector.
+The sqldb module defines a supercharged native `sql.DB` driver that simplifies configuration and add some usefull methods. It aims to minify code repetition that the `database/sql"` module can create.
 
+![tests](https://github.com/Aloe-Corporation/sqldb/actions/workflows/go.yml/badge.svg)
+[![Go Reference](https://pkg.go.dev/badge/github.com/Aloe-Corporation/sqldb.svg)](https://pkg.go.dev/github.com/Aloe-Corporation/sqldb)
+
+## Overview
+
+The sqldb module offers:
+- Simplified configuration
+- A TryConnection method for pinging your database, triggering an error if the timeout is exceeded
+- Convenient methods to streamline SQL database queries
+
+## Concepts
+
+Easily configure your connector with the provided `Conf` structure and its factory methods:
+
+```go
+type Conf struct {
+	Driver string `yaml:"driver"` // Database driver (e.g., "mysql", "postgres", etc.).
+	DSN    string `yaml:"dsn"`    // Data Source Name (DSN) for connecting to the database.
+}
+```
 ## Usage
 
 ### Configuration
@@ -20,10 +40,6 @@ Example DSN:
 - `postgres:` user=postgres password=example dbname=postgres host=localhost port=5432 sslmode=disable TimeZone=UTC
 - `mysql:` root:example@tcp(localhost:3306)/dbtest?loc=UTC&tls=false&parseTime=true `(WARNING: parseTime=true is require)`
 
-### Environement variable
-
-- PREFIX\_ + `SQLDB_DRIVER`
-- PREFIX\_ + `SQLDB_DSN`
 
 ### Create new connector
 
@@ -32,54 +48,26 @@ To create new SqlDB Connector use this function with as configuration the struct
 ```go
 var config = sqldb.Conf{
 	Driver:     "mysql",
-	Pwd:      	"root:example@tcp(localhost:13306)/dbtest?loc=UTC&tls=false&parseTime=trueword",
+	DSN:      	"root:example@tcp(localhost:13306)/dbtest?loc=UTC&tls=false&parseTime=trueword",
 }
 
 // Build Connector
-pg, err = sqldb.FactoryConnector(config)
+connector, err = sqldb.FactoryConnector(config)
 if err != nil {
 	return fmt.Errorf("fail to init SqlDB connector: %w", err)
 }
 
 // Test connection
-err = pg.TryConnection(10)
+err = connector.TryConnection(10)
 if err != nil {
 	return fmt.Errorf("fail to ping SqlDB: %w", err)
 }
 
 ```
+## Contributing
 
-### Use DockerManager for testing
+This section will be added soon.
 
-`sqldb.DockerManager` is used to up and down SqlDB container during the test with the `sqldb.Conf`
+## License
 
-```go
-var config = sqldb.Conf{
-	Driver:     "mysql",
-	Pwd:      	"root:example@tcp(localhost:13306)/dbtest?loc=UTC&tls=false&parseTime=trueword",
-}
-
-dm := sqldb.DockerManager{
-	ContainerName: "docker_manager_postgres",
-	PathScript:    "path_script.sql",
-	Config:        config,
-}
-
-// Up docker container
-err := dm.Up()
-if err != nil {
-	panic(fmt.Errorf("fail to Up SqlDB Docker container: %w", err))
-}
-
-// Down docker container
-err = dm.Down()
-if err != nil {
-	panic(fmt.Errorf("fail to Down SqlDB Docker container: %w", err))
-}
-```
-
-## Test
-
-- `make test`
-
-`test` folder contains script to set up test database.
+Client is released under the MIT license. See [LICENSE.txt](./LICENSE).
