@@ -52,13 +52,13 @@ var config = sqldb.Conf{
 }
 
 // Build Connector
-pg, err = sqldb.FactoryConnector(config)
+connector, err = sqldb.FactoryConnector(config)
 if err != nil {
 	return fmt.Errorf("fail to init SqlDB connector: %w", err)
 }
 
 // Test connection
-err = pg.TryConnection(10)
+err = connector.TryConnection(10)
 if err != nil {
 	return fmt.Errorf("fail to ping SqlDB: %w", err)
 }
