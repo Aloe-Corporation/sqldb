@@ -70,4 +70,4 @@ This section will be added soon.
 
 ## License
 
-Client is released under the MIT license. See [LICENSE.txt](./LICENSE).
+Sqldb module is released under the MIT license. See [LICENSE.txt](./LICENSE).
